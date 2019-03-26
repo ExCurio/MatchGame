@@ -83,8 +83,6 @@ MatchGame.renderCards = function(cardValues, $game) {
 
     // Append the $card object to the $game object
     $game.append($card);
-
-    console.log($card.data());
   }
 
   // When a card is clicked call the flipCard method
@@ -129,16 +127,15 @@ MatchGame.flipCard = function($card, $game) {
       var card1 = flippedCards[0];
       var card2 = flippedCards[1];
       // Change the background color, text, and isFlipped values of cards
-      card1.css('background-color', 'rgb(32, 64, 86)')
-          .text('')
-          .data('isFlipped', false);
-      card2.css('background-color', 'rgb(32, 64, 86)')
-          .text('')
-          .data('isFlipped', false);
+      window.setTimeout(function() {
+        card1.css('background-color', 'rgb(32, 64, 86)')
+            .text('')
+            .data('isFlipped', false);
+        card2.css('background-color', 'rgb(32, 64, 86)')
+            .text('')
+            .data('isFlipped', false);
+      }, 250);
     }
-    console.log('flipped cards array' + flippedCards);
-    console.log('Card #1 is ' + flippedCards[0].data('isFlipped'));
-    console.log('Card #2 is ' + flippedCards[1].data('isFlipped'));
     // Empty the flippedCards array
     $game.data('flippedCards', []);
   }
