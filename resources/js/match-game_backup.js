@@ -36,7 +36,6 @@ MatchGame.generateCardValues = function () {
 
   // Array for the randomly sorted, unplaced cards
   var randomCards = [];
-
   // Loop that pushes a value from a random index from sortedCards to randomCards
   // and splices out a value from the same random index from sortedCards
   while (sortedCards.length > 0) {
@@ -44,10 +43,6 @@ MatchGame.generateCardValues = function () {
     randomCards.push(sortedCards[index]);
     sortedCards.splice(index, 1);
   }
-
-  // Global counter for total cards for a game instance
-  var $game = $('#game');
-  $game.data('totalCards', randomCards.length);
 
   return randomCards;
 
@@ -114,9 +109,8 @@ MatchGame.renderCards = function(cardValues, $game) {
 
 MatchGame.gameOver = function($game) {
   var playedCards = $game.data('playedCards');
-  var totalCards = $game.data('totalCards');
-  console.log(playedCards.length);
-  if (playedCards.length === totalCards) {
+  if (playedCards.length === 12) {
+    console.log("You Won");
     $('.youwon').text('You Won!!');
   }
 }
@@ -153,8 +147,7 @@ MatchGame.flipCard = function($card, $game) {
       flippedCards[1].css('background-color', 'rgb(153, 153, 153)')
                       .css('color', 'rgb(204, 204, 204)');
       var playedCards = $game.data('playedCards');
-      playedCards.push(flippedCards[0]);
-      playedCards.push(flippedCards[1]);
+      playedCards.push($card);
     } else {
       var card1 = flippedCards[0];
       var card2 = flippedCards[1];
