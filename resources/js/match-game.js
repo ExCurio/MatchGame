@@ -97,8 +97,6 @@ MatchGame.generateCardValues = function ($game) {
     sortedCards.push(i);
   }
 
-  console.log(sortedCards);
-
   // Array for the randomly sorted, unplaced cards
   var randomCards = [];
 
@@ -169,9 +167,6 @@ MatchGame.renderCards = function(cardValues, $game) {
       $card.data('isFlipped', false);
       $card.data('color', colors[cardValues[i]]);
 
-      console.log($card.data('value'));
-      console.log($card.data('icon'));
-
       // Append the $card object to the $game object
       $game.append($card);
 
@@ -185,9 +180,6 @@ MatchGame.renderCards = function(cardValues, $game) {
       $card.data('icon', cardIcons[cardValues[i]]);
       $card.data('isFlipped', false);
       $card.data('color', colors[cardValues[i]]);
-
-      console.log($card.data('value'));
-      console.log($card.data('icon'));
 
       // Append the $card object to the $game object
       $game.append($card);
