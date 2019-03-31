@@ -11,6 +11,14 @@ $(document).ready(function() {
   MatchGame.renderCards(values, $game);
 });
 
+// Restart Game Button
+
+$('.restart').click(function() {
+  var $game = $('#game');
+  var values = MatchGame.generateCardValues();
+  MatchGame.renderCards(values, $game);
+});
+
 
 /*
   Generates and returns an array of matching card values.
@@ -126,7 +134,7 @@ MatchGame.flipCard = function($card, $game) {
     } else {
       var card1 = flippedCards[0];
       var card2 = flippedCards[1];
-      // Change the background color, text, and isFlipped values of cards
+      // Change back the background color, text, and isFlipped values of cards
       window.setTimeout(function() {
         card1.css('background-color', 'rgb(32, 64, 86)')
             .text('')
