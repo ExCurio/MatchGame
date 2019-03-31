@@ -17,6 +17,7 @@ $('.restart').click(function() {
   var $game = $('#game');
   var values = MatchGame.generateCardValues();
   MatchGame.renderCards(values, $game);
+  $('.youwon').text('');
 });
 
 
@@ -101,14 +102,17 @@ MatchGame.renderCards = function(cardValues, $game) {
   // When a card is clicked call the flipCard method
   $('.card').click(function() {
     MatchGame.flipCard($(this), $('#game'));
-    MatchGame.gameOver();
+    MatchGame.gameOver($('#game'));
   });
 
 };
 
-MatchGame.gameOver = function() {
-  if (playedCards.length === randomCards.length) {
-    $('<p>You Won!!</p>').appendTo('.youwon');
+MatchGame.gameOver = function($game) {
+  var playedCards = $game.data('playedCards');
+  console.log(playedCards.length);
+  if (playedCards.length === 12) {
+    console.log("You Won");
+    $('.youwon').text('You Won!!');
   }
 }
 
