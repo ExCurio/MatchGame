@@ -27,8 +27,8 @@ $('.restart').click(function() {
 MatchGame.generateCardValues = function () {
   // Array for the sorted, unplaced cards
   var sortedCards = [];
-  // Loop that pushes an int 1 - 8, twice, to the sortedCards array
-  for (var i = 1; i < 9; i++) {
+  // Loop that pushes an int 1 - 12, twice, to the sortedCards array
+  for (var i = 1; i < 13; i++) {
     sortedCards.push(i);
     sortedCards.push(i);
   }
@@ -57,13 +57,17 @@ MatchGame.renderCards = function(cardValues, $game) {
 
   // Array that stores the hsl color values as strings
   var colors = [
-    'hsl(25, 85%, 65%)',
-    'hsl(55, 85%, 65%)',
-    'hsl(90, 85%, 65%)',
-    'hsl(160, 85%, 65%)',
-    'hsl(220, 85%, 65%)',
-    'hsl(265, 85%, 65%)',
-    'hsl(310, 85%, 65%)',
+    'hsl(15, 85%, 65%)',
+    'hsl(45, 85%, 65%)',
+    'hsl(75, 85%, 65%)',
+    'hsl(100, 85%, 65%)',
+    'hsl(140, 85%, 65%)',
+    'hsl(170, 85%, 65%)',
+    'hsl(200, 85%, 65%)',
+    'hsl(230, 85%, 65%)',
+    'hsl(260, 85%, 65%)',
+    'hsl(300, 85%, 65%)',
+    'hsl(330, 85%, 65%)',
     'hsl(360, 85%, 65%)'];
 
   // Empty the $game object of all html
@@ -72,6 +76,7 @@ MatchGame.renderCards = function(cardValues, $game) {
   // Create an empty array for flipped cards
   // Create data attribute on $game object of flipped cards
   $game.data('flippedCards', []);
+  $game.data('playedCards', []);
 
   // Loop that iterates i < length of cardValues
   for (var i = 0; i < cardValues.length; i++) {
@@ -96,9 +101,16 @@ MatchGame.renderCards = function(cardValues, $game) {
   // When a card is clicked call the flipCard method
   $('.card').click(function() {
     MatchGame.flipCard($(this), $('#game'));
+    MatchGame.gameOver();
   });
 
 };
+
+MatchGame.gameOver = function() {
+  if (playedCards.length === randomCards.length) {
+    $('<p>You Won!!</p>').appendTo('.youwon');
+  }
+}
 
 
 /*
@@ -131,6 +143,8 @@ MatchGame.flipCard = function($card, $game) {
                       .css('color', 'rgb(204, 204, 204)');
       flippedCards[1].css('background-color', 'rgb(153, 153, 153)')
                       .css('color', 'rgb(204, 204, 204)');
+      var playedCards = $game.data('playedCards');
+      playedCards.push($card);
     } else {
       var card1 = flippedCards[0];
       var card2 = flippedCards[1];
