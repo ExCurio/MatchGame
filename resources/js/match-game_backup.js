@@ -1,23 +1,59 @@
 var MatchGame = {};
 
 /*
-  Sets up a new game after HTML document has loaded.
-  Renders a 4x4 board of cards.
+  Sets up a new game after HTML document has loaded
+  Renders a 4x4 board of cards
 */
 
 $(document).ready(function() {
   var $game = $('#game');
-  var values = MatchGame.generateCardValues();
+  $game.data('gameSize', 8);
+  var values = MatchGame.generateCardValues($game);
   MatchGame.renderCards(values, $game);
 });
 
-// Restart Game Button
+
+/*
+  Restarts the Game
+  Renders a board size of cards equal to the previous game size
+*/
 
 $('.restart').click(function() {
   var $game = $('#game');
-  var values = MatchGame.generateCardValues();
+  var gameSize = $game.data('gameSize');
+  $game.data('gameSize', gameSize);
+  var values = MatchGame.generateCardValues($game);
   MatchGame.renderCards(values, $game);
   $('.youwon').text('');
+});
+
+
+/*
+  Allows user to select the size of the game
+  smallgame = 4x4 cards
+  mediumgame = 4x6 cards
+  largegame = 4x8 cards
+*/
+
+$('.smallgame').click(function() {
+  var $game = $('#game');
+  $game.data('gameSize', 8);
+  var values = MatchGame.generateCardValues($game);
+  MatchGame.renderCards(values, $game);
+});
+
+$('.mediumgame').click(function() {
+  var $game = $('#game');
+  $game.data('gameSize', 12);
+  var values = MatchGame.generateCardValues($game);
+  MatchGame.renderCards(values, $game);
+});
+
+$('.largegame').click(function() {
+  var $game = $('#game');
+  $game.data('gameSize', 18);
+  var values = MatchGame.generateCardValues($game);
+  MatchGame.renderCards(values, $game);
 });
 
 
@@ -25,13 +61,20 @@ $('.restart').click(function() {
   Generates and returns an array of matching card values.
  */
 
-MatchGame.generateCardValues = function () {
+MatchGame.generateCardValues = function ($game) {
   // Array for the sorted, unplaced cards
   var sortedCards = [];
-  // Loop that pushes an int 1 - 12, twice, to the sortedCards array
-  for (var i = 1; i < 13; i++) {
-    sortedCards.push(i);
-    sortedCards.push(i);
+
+  // Array of card values
+  $game.data('cardLetters', ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R']);
+  var cardLetters = $game.data('cardLetters');
+
+  var gameSize = $game.data('gameSize');
+
+  // Loop that pushes an int range from 1 to gameSize, twice, to the sortedCards array
+  for (var i = 0; i < gameSize; i++) {
+    sortedCards.push(cardLetters[i]);
+    sortedCards.push(cardLetters[i]);
   }
 
   // Array for the randomly sorted, unplaced cards
@@ -46,7 +89,6 @@ MatchGame.generateCardValues = function () {
   }
 
   // Global counter for total cards for a game instance
-  var $game = $('#game');
   $game.data('totalCards', randomCards.length);
 
   return randomCards;
@@ -63,16 +105,22 @@ MatchGame.renderCards = function(cardValues, $game) {
 
   // Array that stores the hsl color values as strings
   var colors = [
-    'hsl(15, 85%, 65%)',
-    'hsl(45, 85%, 65%)',
-    'hsl(75, 85%, 65%)',
-    'hsl(100, 85%, 65%)',
-    'hsl(140, 85%, 65%)',
+    'hsl(10, 85%, 65%)',
+    'hsl(30, 85%, 65%)',
+    'hsl(50, 85%, 65%)',
+    'hsl(70, 85%, 65%)',
+    'hsl(90, 85%, 65%)',
+    'hsl(110, 85%, 65%)',
+    'hsl(130, 85%, 65%)',
+    'hsl(150, 85%, 65%)',
     'hsl(170, 85%, 65%)',
-    'hsl(200, 85%, 65%)',
+    'hsl(190, 85%, 65%)',
+    'hsl(210, 85%, 65%)',
     'hsl(230, 85%, 65%)',
-    'hsl(260, 85%, 65%)',
-    'hsl(300, 85%, 65%)',
+    'hsl(250, 85%, 65%)',
+    'hsl(270, 85%, 65%)',
+    'hsl(290, 85%, 65%)',
+    'hsl(310, 85%, 65%)',
     'hsl(330, 85%, 65%)',
     'hsl(360, 85%, 65%)'];
 
@@ -84,24 +132,38 @@ MatchGame.renderCards = function(cardValues, $game) {
   $game.data('flippedCards', []);
   $game.data('playedCards', []);
 
-  // Loop that iterates i < length of cardValues
+  var cardLetters = $game.data('cardLetters');
+
+    // Loop that iterates i < length of cardValues
   for (var i = 0; i < cardValues.length; i++) {
-    // Create $card object with card HTML
-    var $card = $('<div class="col-xs-3 card"></div>');
+    var gameSize = $game.data('gameSize');
+    // If gameSize is large
+    if (gameSize === 18) {
+      // Create $card object with card HTML
+      var $card = $('<div class="col-xs-2 card"></div>');
+      var valueIndex = cardLetters.indexOf(cardValues[i]);
 
-    // Create data attribute on $card object with a key of 'value'
-    // and a value of current index of cardValues
-    $card.data('value', cardValues[i]);
-    // Create data attribute on $card object with a key of 'isFlipped'
-    // and a value of false
-    $card.data('isFlipped', false);
-    // Create data attribute on $card object with a key of 'color'
-    // and a value of the colors array, index equal to current index of
-    // cardValues - 1
-    $card.data('color', colors[(cardValues[i] - 1)]);
+      $card.data('value', cardValues[i]);
+      $card.data('isFlipped', false);
+      $card.data('color', colors[valueIndex]);
 
-    // Append the $card object to the $game object
-    $game.append($card);
+      // Append the $card object to the $game object
+      $game.append($card);
+
+    // Else the gameSize is Medium or Small
+    } else {
+
+      // Create $card object with card HTML
+      var $card = $('<div class="col-xs-3 card"></div>');
+      var valueIndex = cardLetters.indexOf(cardValues[i]);
+
+      $card.data('value', cardValues[i]);
+      $card.data('isFlipped', false);
+      $card.data('color', colors[valueIndex]);
+
+      // Append the $card object to the $game object
+      $game.append($card);
+    }
   }
 
   // When a card is clicked call the flipCard method
@@ -115,16 +177,31 @@ MatchGame.renderCards = function(cardValues, $game) {
 
 /*
   Checks to see if the number of played cards = the total number of cards.
-  If so, display a message that the player won
+  If so, display the You Win overlay element
  */
 
 MatchGame.gameOver = function($game) {
   var playedCards = $game.data('playedCards');
   var totalCards = $game.data('totalCards');
   if (playedCards.length === totalCards) {
-    $('.youwon').text('You Won!!');
+    $('#overlay').css('display', 'block');
   }
 }
+
+
+/*
+  Hides You Win overlay element
+  Resets the game at the previous game size
+ */
+
+$('#overlay').click(function() {
+  $('#overlay').css('display', 'none');
+  var $game = $('#game');
+  var gameSize = $game.data('gameSize');
+  $game.data('gameSize', gameSize);
+  var values = MatchGame.generateCardValues($game);
+  MatchGame.renderCards(values, $game);
+});
 
 
 /*

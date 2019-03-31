@@ -66,16 +66,38 @@ MatchGame.generateCardValues = function ($game) {
   var sortedCards = [];
 
   // Array of card values
-  $game.data('cardLetters', ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R']);
-  var cardLetters = $game.data('cardLetters');
+  $game.data('cardIcons', [
+                            '<i class="glyphicon glyphicon-plus"></i>',
+                            '<i class="glyphicon glyphicon-minus"></i>',
+                            '<i class="glyphicon glyphicon-cloud"></i>',
+                            '<i class="glyphicon glyphicon-music"></i>',
+                            '<i class="glyphicon glyphicon-heart"></i>',
+                            '<i class="glyphicon glyphicon-star"></i>',
+                            '<i class="glyphicon glyphicon-cog"></i>',
+                            '<i class="glyphicon glyphicon-home"></i>',
+                            '<i class="glyphicon glyphicon-camera"></i>',
+                            '<i class="glyphicon glyphicon-leaf"></i>',
+                            '<i class="glyphicon glyphicon-bell"></i>',
+                            '<i class="glyphicon glyphicon-wrench"></i>',
+                            '<i class="glyphicon glyphicon-tree-conifer"></i>',
+                            '<i class="glyphicon glyphicon-knight"></i>',
+                            '<i class="glyphicon glyphicon-apple"></i>',
+                            '<i class="glyphicon glyphicon-hourglass"></i>',
+                            '<i class="glyphicon glyphicon-scissors"></i>',
+                            '<i class="glyphicon glyphicon-piggy-bank"></i>',
+                            ]);
+
+  var cardIcons = $game.data('cardIcons');
 
   var gameSize = $game.data('gameSize');
 
   // Loop that pushes an int range from 1 to gameSize, twice, to the sortedCards array
   for (var i = 0; i < gameSize; i++) {
-    sortedCards.push(cardLetters[i]);
-    sortedCards.push(cardLetters[i]);
+    sortedCards.push(i);
+    sortedCards.push(i);
   }
+
+  console.log(sortedCards);
 
   // Array for the randomly sorted, unplaced cards
   var randomCards = [];
@@ -132,7 +154,7 @@ MatchGame.renderCards = function(cardValues, $game) {
   $game.data('flippedCards', []);
   $game.data('playedCards', []);
 
-  var cardLetters = $game.data('cardLetters');
+  var cardIcons = $game.data('cardIcons');
 
     // Loop that iterates i < length of cardValues
   for (var i = 0; i < cardValues.length; i++) {
@@ -141,11 +163,14 @@ MatchGame.renderCards = function(cardValues, $game) {
     if (gameSize === 18) {
       // Create $card object with card HTML
       var $card = $('<div class="col-xs-2 card"></div>');
-      var valueIndex = cardLetters.indexOf(cardValues[i]);
 
       $card.data('value', cardValues[i]);
+      $card.data('icon', cardIcons[cardValues[i]]);
       $card.data('isFlipped', false);
-      $card.data('color', colors[valueIndex]);
+      $card.data('color', colors[cardValues[i]]);
+
+      console.log($card.data('value'));
+      console.log($card.data('icon'));
 
       // Append the $card object to the $game object
       $game.append($card);
@@ -155,11 +180,14 @@ MatchGame.renderCards = function(cardValues, $game) {
 
       // Create $card object with card HTML
       var $card = $('<div class="col-xs-3 card"></div>');
-      var valueIndex = cardLetters.indexOf(cardValues[i]);
 
       $card.data('value', cardValues[i]);
+      $card.data('icon', cardIcons[cardValues[i]]);
       $card.data('isFlipped', false);
-      $card.data('color', colors[valueIndex]);
+      $card.data('color', colors[cardValues[i]]);
+
+      console.log($card.data('value'));
+      console.log($card.data('icon'));
 
       // Append the $card object to the $game object
       $game.append($card);
@@ -218,7 +246,7 @@ MatchGame.flipCard = function($card, $game) {
 
   // Change the background color, text, and isFlipped values of the card
   $card.css('background-color', $card.data('color'))
-      .text($card.data('value'))
+      .append($card.data('icon'))
       .data('isFlipped', true);
 
   // Push $card to the end of the $game flippedCards Array
