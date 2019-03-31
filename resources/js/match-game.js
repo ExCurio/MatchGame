@@ -7,7 +7,7 @@ var MatchGame = {};
 
 $(document).ready(function() {
   var $game = $('#game');
-  $game.data('gameSize', 9);
+  $game.data('gameSize', 8);
   var values = MatchGame.generateCardValues($game);
   MatchGame.renderCards(values, $game);
 });
@@ -37,21 +37,21 @@ $('.restart').click(function() {
 
 $('.smallgame').click(function() {
   var $game = $('#game');
-  $game.data('gameSize', 9);
+  $game.data('gameSize', 8);
   var values = MatchGame.generateCardValues($game);
   MatchGame.renderCards(values, $game);
 });
 
 $('.mediumgame').click(function() {
   var $game = $('#game');
-  $game.data('gameSize', 13);
+  $game.data('gameSize', 12);
   var values = MatchGame.generateCardValues($game);
   MatchGame.renderCards(values, $game);
 });
 
 $('.largegame').click(function() {
   var $game = $('#game');
-  $game.data('gameSize', 19);
+  $game.data('gameSize', 18);
   var values = MatchGame.generateCardValues($game);
   MatchGame.renderCards(values, $game);
 });
@@ -65,12 +65,16 @@ MatchGame.generateCardValues = function ($game) {
   // Array for the sorted, unplaced cards
   var sortedCards = [];
 
+  // Array of card values
+  $game.data('cardLetters', ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R']);
+  var cardLetters = $game.data('cardLetters');
+
   var gameSize = $game.data('gameSize');
 
   // Loop that pushes an int range from 1 to gameSize, twice, to the sortedCards array
-  for (var i = 1; i < gameSize; i++) {
-    sortedCards.push(i);
-    sortedCards.push(i);
+  for (var i = 0; i < gameSize; i++) {
+    sortedCards.push(cardLetters[i]);
+    sortedCards.push(cardLetters[i]);
   }
 
   // Array for the randomly sorted, unplaced cards
@@ -128,16 +132,19 @@ MatchGame.renderCards = function(cardValues, $game) {
   $game.data('flippedCards', []);
   $game.data('playedCards', []);
 
+  var cardLetters = $game.data('cardLetters');
+
     // Loop that iterates i < length of cardValues
   for (var i = 0; i < cardValues.length; i++) {
     var gameSize = $game.data('gameSize');
-    if (gameSize === 19) {
+    if (gameSize === 18) {
         // Create $card object with card HTML
       var $card = $('<div class="col-xs-2 card"></div>');
+      var valueIndex = cardLetters.indexOf(cardValues[i]);
 
       $card.data('value', cardValues[i]);
       $card.data('isFlipped', false);
-      $card.data('color', colors[(cardValues[i] - 1)]);
+      $card.data('color', colors[valueIndex]);
 
       // Append the $card object to the $game object
       $game.append($card);
@@ -146,10 +153,11 @@ MatchGame.renderCards = function(cardValues, $game) {
 
       // Create $card object with card HTML
       var $card = $('<div class="col-xs-3 card"></div>');
+      var valueIndex = cardLetters.indexOf(cardValues[i]);
 
       $card.data('value', cardValues[i]);
       $card.data('isFlipped', false);
-      $card.data('color', colors[(cardValues[i] - 1)]);
+      $card.data('color', colors[valueIndex]);
 
       // Append the $card object to the $game object
       $game.append($card);
@@ -167,7 +175,7 @@ MatchGame.renderCards = function(cardValues, $game) {
 
 /*
   Checks to see if the number of played cards = the total number of cards.
-  If so, display a message that the player won
+  If so, display the You Win overlay element
  */
 
 MatchGame.gameOver = function($game) {
@@ -177,6 +185,12 @@ MatchGame.gameOver = function($game) {
     $('#overlay').css('display', 'block');
   }
 }
+
+
+/*
+  Hides You Win overlay element
+  Resets the game at the previous game size
+ */
 
 $('#overlay').click(function() {
   $('#overlay').css('display', 'none');
