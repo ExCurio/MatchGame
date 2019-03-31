@@ -174,9 +174,18 @@ MatchGame.gameOver = function($game) {
   var playedCards = $game.data('playedCards');
   var totalCards = $game.data('totalCards');
   if (playedCards.length === totalCards) {
-    $('.youwon').text('You Won!!');
+    $('#overlay').css('display', 'block');
   }
 }
+
+$('#overlay').click(function() {
+  $('#overlay').css('display', 'none');
+  var $game = $('#game');
+  var gameSize = $game.data('gameSize');
+  $game.data('gameSize', gameSize);
+  var values = MatchGame.generateCardValues($game);
+  MatchGame.renderCards(values, $game);
+});
 
 
 /*
