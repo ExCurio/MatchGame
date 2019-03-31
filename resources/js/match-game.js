@@ -137,8 +137,9 @@ MatchGame.renderCards = function(cardValues, $game) {
     // Loop that iterates i < length of cardValues
   for (var i = 0; i < cardValues.length; i++) {
     var gameSize = $game.data('gameSize');
+    // If gameSize is large
     if (gameSize === 18) {
-        // Create $card object with card HTML
+      // Create $card object with card HTML
       var $card = $('<div class="col-xs-2 card"></div>');
       var valueIndex = cardLetters.indexOf(cardValues[i]);
 
@@ -149,6 +150,7 @@ MatchGame.renderCards = function(cardValues, $game) {
       // Append the $card object to the $game object
       $game.append($card);
 
+    // Else the gameSize is Medium or Small
     } else {
 
       // Create $card object with card HTML

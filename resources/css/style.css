@@ -7,9 +7,11 @@
 
 /* Universal Styles */
 body {
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
+  /*font-family: 'Kanit', sans-serif;*/
   font-size: 16px;
-  background-color: rgb(255, 242, 242);
+  /*background-color: rgb(255, 242, 242);*/
+  background-color: rgb(176, 224, 230);
 }
 
 h2 {
@@ -25,12 +27,12 @@ h4 {
 }
 
 p {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: rgb(74, 74, 74);
 }
 
 button {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 /* Main Section Styles */
@@ -40,7 +42,7 @@ button {
 
 .card {
   background-color: rgb(32, 64, 86);
-  border: 4px solid rgb(255, 255, 255);
+  border: 4px solid rgb(242, 242, 242);
   border-radius: 8px;
   font-size: 7rem;
   font-weight: 900;
@@ -73,4 +75,9 @@ button {
   color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
+}
+
+.restart {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
 }
